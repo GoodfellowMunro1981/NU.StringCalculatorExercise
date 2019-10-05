@@ -39,7 +39,7 @@ namespace StringCalculator.Tests
         public void AddTest_DoubleNumberString_Success()
         {
             // Arrange 
-            var numbers = "1, 2";
+            var numbers = "1,2";
 
             // Act
             var result = StringCalculator.Add(numbers);
@@ -52,7 +52,7 @@ namespace StringCalculator.Tests
         public void AddTest_TrebleNumberString_Success()
         {
             // Arrange 
-            var numbers = "1, 2, 3";
+            var numbers = "1,2,3";
 
             // Act
             var result = StringCalculator.Add(numbers);
@@ -95,6 +95,54 @@ namespace StringCalculator.Tests
 
             // Assert
             Assert.AreEqual(total, result);
+        }
+
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberNewLineDelimiterString_Success()
+        {
+            // Arrange 
+            var numbers = "1\n2";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(3, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberNewLineDelimiterString_Success()
+        {
+            // Arrange 
+            var numbers = "1\n2\n3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_SingleNumberInvalidDelimiterString_Failure()
+        {
+            // Arrange 
+            var numbers = "1,\n";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException ex)
+            {
+                exceptionThrown = true;
+            }
+            
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
         }
     }
 }

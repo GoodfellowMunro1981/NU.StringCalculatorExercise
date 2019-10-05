@@ -1,4 +1,3 @@
-C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.csprojAssemblyReference.cache
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.AssemblyInfoInputs.cache
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.AssemblyInfo.cs
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\bin\Debug\netcoreapp3.0\StringCalculator.exe
