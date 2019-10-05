@@ -60,5 +60,41 @@ namespace StringCalculator.Tests
             // Assert
             Assert.AreEqual(6, result);
         }
+
+        [TestMethod()]
+        public void AddTest_MultipleNumberString_Success()
+        {
+            // Arrange 
+            var total = 0;
+            var sb = new StringBuilder();
+            var random = new Random();
+            var totalNumbers = random.Next(1, 100);
+            var counter = 0;
+
+            while(counter < totalNumbers)
+            {
+                var number = random.Next(1, 100);
+
+                if(counter == 0)
+                {
+                    sb.Append(number);
+                }
+                else
+                {
+                    sb.AppendFormat(",{0}", number);
+                }
+
+                total += number;
+                counter++;
+            }
+
+            var numbers = sb.ToString();
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(total, result);
+        }
     }
 }
