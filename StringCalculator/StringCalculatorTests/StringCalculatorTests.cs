@@ -252,7 +252,7 @@ namespace StringCalculator.Tests
         public void AddTest_DoubleNumberSupportCustomDelimitedString2_Success()
         {
             // Arrange 
-            var numbers = "//-\n1-2";
+            var numbers = "//#\n1#2";
 
             // Act
             var result = StringCalculator.Add(numbers);
@@ -265,7 +265,7 @@ namespace StringCalculator.Tests
         public void AddTest_DoubleNumberSupportCustomDelimitedString2_Failure()
         {
             // Arrange 
-            var numbers = "//-\n1--2";
+            var numbers = "//#\n1##2";
             var exceptionThrown = false;
 
             // Act
@@ -286,7 +286,7 @@ namespace StringCalculator.Tests
         public void AddTest_TrebleNumberSupportCustomDelimitedString2_Success()
         {
             // Arrange 
-            var numbers = "//-\n1-2-3";
+            var numbers = "//#\n1#2#3";
 
             // Act
             var result = StringCalculator.Add(numbers);
@@ -299,7 +299,7 @@ namespace StringCalculator.Tests
         public void AddTest_TrebleNumberSupportCustomDelimitedString2_Failure()
         {
             // Arrange 
-            var numbers = "//-\n1--2-3";
+            var numbers = "//#\n1##2#3";
             var exceptionThrown = false;
 
             // Act
@@ -314,6 +314,32 @@ namespace StringCalculator.Tests
 
             // Assert
             Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberContainingNegativeString_Failure()
+        {
+            // Arrange 
+            var numbers = "//#\n1#-2#3";
+            var negativeNumberExceptionThrown = false;
+            var negativeNumberExceptionMessage = default(string);
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (NegativeNumberException ex)
+            {
+                negativeNumberExceptionThrown = true;
+                negativeNumberExceptionMessage = ex.Message;
+            }
+
+            // Assert
+            Assert.AreEqual(negativeNumberExceptionThrown, true);
+            // check excpetion message contais negative number
+
+
         }
     }
 }

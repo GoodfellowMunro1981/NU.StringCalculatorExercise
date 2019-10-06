@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace StringCalculator
 {
@@ -7,6 +8,7 @@ namespace StringCalculator
     {
         private static readonly char[] DEFAULT_DELIMITERS = new char[] { ',', '\n' };
         private static readonly string INVALID_DELIMITER_MESSAGE = "String numbers contains invalid delimiter.";
+        private static readonly string NEGATIVE_NUMBER_MESSAGE = "Negatives not allowed.";
 
         public static int Add(string numbers)
         {
@@ -15,22 +17,54 @@ namespace StringCalculator
             if(!string.IsNullOrEmpty(numbers))
             {
                 var model = GetDelimiterAndNumberString(numbers);
-                var numberValues = model.Numbers.Split(model.Delimiters);
-
-                foreach (var numberValue in numberValues)
-                {
-                    if (int.TryParse(numberValue, out int number))
-                    {
-                        total += number;
-                    }
-                    else
-                    {
-                        throw new InvalidDelimiterException(INVALID_DELIMITER_MESSAGE);
-                    }
-                }
+                var numberStrings = model.Numbers.Split(model.Delimiters);
+                var numberValues = GetNumberValues(numberStrings);
+                CheckForNegativeNumbers(numberValues);
+                total = numberValues.Sum();
             }
 
             return total;
+        }
+
+        private static IEnumerable<int> GetNumberValues(IEnumerable<string> numberStrings)
+        {
+            var numberValues = new List<int>();
+
+            foreach (var numberValue in numberStrings)
+            {
+                if (int.TryParse(numberValue, out int number))
+                {
+                    numberValues.Add(number);
+                }
+                else
+                {
+                    throw new InvalidDelimiterException(INVALID_DELIMITER_MESSAGE);
+                }
+            }
+
+            return numberValues;
+        }
+
+        private static void CheckForNegativeNumbers(IEnumerable<int> numbers)
+        {
+            if (numbers.Any(x => x < 0))
+            {
+                var sb = new StringBuilder();
+                sb.Append(NEGATIVE_NUMBER_MESSAGE);
+                var counter = 0;
+
+                foreach (var negativeNumber in numbers.Where(x => x < 0).ToArray())
+                {
+                    if (counter == 0)
+                    {
+                        sb.Append(negativeNumber);
+                    }
+
+                    sb.AppendFormat(",{0}", negativeNumber);
+                }
+
+                throw new NegativeNumberException(sb.ToString());
+            }
         }
 
         private static NumberStringModel GetDelimiterAndNumberString(string numbers)
