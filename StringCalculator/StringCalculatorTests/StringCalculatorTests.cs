@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Text;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace StringCalculator.Tests
 {
@@ -177,6 +177,143 @@ namespace StringCalculator.Tests
 
             // Assert
             Assert.AreEqual(total, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberSupportCustomDelimitedString1_Success()
+        {
+            // Arrange 
+            var numbers = "//;\n1;2";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(3, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberSupportCustomDelimitedString1_Failure()
+        {
+            // Arrange 
+            var numbers = "//;\n;1;2";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException ex)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberSupportCustomDelimitedString1_Success()
+        {
+            // Arrange 
+            var numbers = "//;\n1;2;3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberSupportCustomDelimitedString1_Failure()
+        {
+            // Arrange 
+            var numbers = "//;\n;1;2;3";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException ex)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberSupportCustomDelimitedString2_Success()
+        {
+            // Arrange 
+            var numbers = "//-\n1-2";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(3, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberSupportCustomDelimitedString2_Failure()
+        {
+            // Arrange 
+            var numbers = "//-\n1--2";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException ex)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberSupportCustomDelimitedString2_Success()
+        {
+            // Arrange 
+            var numbers = "//-\n1-2-3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberSupportCustomDelimitedString2_Failure()
+        {
+            // Arrange 
+            var numbers = "//-\n1--2-3";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException ex)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
         }
     }
 }

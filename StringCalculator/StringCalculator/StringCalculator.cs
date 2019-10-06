@@ -1,9 +1,12 @@
-﻿namespace StringCalculator
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace StringCalculator
 {
     public static class StringCalculator
     {
-        private static char[] DEFAULT_DELIMITERS = new char[] { ',', '\n' };
-        private static string INVALID_DELIMITER_MESSAGE = "String numbers contains invalid delimiter.";
+        private static readonly char[] DEFAULT_DELIMITERS = new char[] { ',', '\n' };
+        private static readonly string INVALID_DELIMITER_MESSAGE = "String numbers contains invalid delimiter.";
 
         public static int Add(string numbers)
         {
@@ -11,7 +14,8 @@
 
             if(!string.IsNullOrEmpty(numbers))
             {
-                string[] numberValues = numbers.Split(DEFAULT_DELIMITERS);
+                var model = GetDelimiterAndNumberString(numbers);
+                var numberValues = model.Numbers.Split(model.Delimiters);
 
                 foreach (var numberValue in numberValues)
                 {
@@ -27,6 +31,43 @@
             }
 
             return total;
+        }
+
+        private static NumberStringModel GetDelimiterAndNumberString(string numbers)
+        {
+            var delimiters = new List<char>();
+
+            foreach (var delimiter in DEFAULT_DELIMITERS)
+            {
+                delimiters.Add(delimiter);
+            }
+
+            if (numbers.StartsWith(("//")))
+            {
+                foreach (var arrayItem in numbers.Split('\n'))
+                {
+                    if (arrayItem.StartsWith("//"))
+                    {
+                        var delimiter = arrayItem
+                                        .Replace("//", "")
+                                        .ToCharArray()
+                                        .First();
+
+
+                        delimiters.Add(delimiter);
+                    }
+                    else
+                    {
+                        numbers = arrayItem;
+                    }
+                }
+            }
+
+            return new NumberStringModel
+            {
+                Delimiters = delimiters.ToArray(),
+                Numbers = numbers
+            };
         }
     }
 }
