@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using StringCalculator;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace StringCalculator.Tests
@@ -36,7 +34,7 @@ namespace StringCalculator.Tests
         }
 
         [TestMethod()]
-        public void AddTest_DoubleNumberString_Success()
+        public void AddTest_DoubleNumberCommaDelimitedString_Success()
         {
             // Arrange 
             var numbers = "1,2";
@@ -49,7 +47,7 @@ namespace StringCalculator.Tests
         }
 
         [TestMethod()]
-        public void AddTest_TrebleNumberString_Success()
+        public void AddTest_TrebleNumberCommaDelimitedString_Success()
         {
             // Arrange 
             var numbers = "1,2,3";
@@ -62,7 +60,7 @@ namespace StringCalculator.Tests
         }
 
         [TestMethod()]
-        public void AddTest_MultipleNumberString_Success()
+        public void AddTest_MultipleNumberCommaDelimitedString_Success()
         {
             // Arrange 
             var total = 0;
@@ -143,6 +141,42 @@ namespace StringCalculator.Tests
             
             // Assert
             Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_MultipleNumberNewLineDelimitedString_Success()
+        {
+            // Arrange 
+            var total = 0;
+            var sb = new StringBuilder();
+            var random = new Random();
+            var totalNumbers = random.Next(1, 100);
+            var counter = 0;
+
+            while (counter < totalNumbers)
+            {
+                var number = random.Next(1, 100);
+
+                if (counter == 0)
+                {
+                    sb.Append(number);
+                }
+                else
+                {
+                    sb.AppendFormat("\n{0}", number);
+                }
+
+                total += number;
+                counter++;
+            }
+
+            var numbers = sb.ToString();
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(total, result);
         }
     }
 }

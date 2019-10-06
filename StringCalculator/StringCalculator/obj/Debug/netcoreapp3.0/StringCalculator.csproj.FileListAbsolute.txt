@@ -8,3 +8,4 @@ C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\bin
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\bin\Debug\netcoreapp3.0\StringCalculator.pdb
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.dll
 C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.pdb
+C:\Source\Repos\NU.StringCalculatorExercis\StringCalculator\StringCalculator\obj\Debug\netcoreapp3.0\StringCalculator.csprojAssemblyReference.cache
