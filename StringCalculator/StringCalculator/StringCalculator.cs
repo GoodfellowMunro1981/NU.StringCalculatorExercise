@@ -14,11 +14,11 @@ namespace StringCalculator
         {
             int total = 0;
 
-            if(!string.IsNullOrEmpty(numbers))
+            if (!string.IsNullOrEmpty(numbers))
             {
                 var model = GetDelimiterAndNumberString(numbers);
                 var numberStrings = model.Numbers.Split(model.Delimiters);
-                var numberValues = GetNumberValues(numberStrings);
+                var numberValues = GetValidNumberValuesLowerThan1000(numberStrings);
                 CheckForNegativeNumbers(numberValues);
                 total = numberValues.Sum();
             }
@@ -26,20 +26,22 @@ namespace StringCalculator
             return total;
         }
 
-        private static IEnumerable<int> GetNumberValues(IEnumerable<string> numberStrings)
+        private static IEnumerable<int> GetValidNumberValuesLowerThan1000(IEnumerable<string> numberStrings)
         {
             var numberValues = new List<int>();
 
             foreach (var numberValue in numberStrings)
             {
-                if (int.TryParse(numberValue, out int number))
-                {
-                    numberValues.Add(number);
-                }
-                else
+                if (!int.TryParse(numberValue, out int number))
                 {
                     throw new InvalidDelimiterException(INVALID_DELIMITER_MESSAGE);
                 }
+
+                if (number <= 1000)
+                {
+                    numberValues.Add(number);
+                }
+
             }
 
             return numberValues;
@@ -62,7 +64,7 @@ namespace StringCalculator
                     else
                     {
                         sb.AppendFormat(",{0}", negativeNumber);
-                    } 
+                    }
                 }
 
                 throw new NegativeNumberException(sb.ToString());

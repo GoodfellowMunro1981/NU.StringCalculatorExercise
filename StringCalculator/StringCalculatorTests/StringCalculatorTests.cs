@@ -363,5 +363,31 @@ namespace StringCalculator.Tests
             Assert.AreEqual(negativeNumberExceptionThrown, true);
             StringAssert.Contains(negativeNumberExceptionMessage, "-2");
         }
+
+        [TestMethod()]
+        public void AddTest_DoubleNumberContainingNumberGreaterThan1000String_Success()
+        {
+            // Arrange 
+            var numbers = "1,1001";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(1, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberContainingNumberGreaterThan1000String_Failure()
+        {
+            // Arrange 
+            var numbers = "1,1002,2";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(3, result);
+        }
     }
 }
