@@ -317,6 +317,30 @@ namespace StringCalculator.Tests
         }
 
         [TestMethod()]
+        public void AddTest_DoubleNumberContainingNegativeString_Failure()
+        {
+            // Arrange 
+            var numbers = "//#\n1#-2";
+            var negativeNumberExceptionThrown = false;
+            var negativeNumberExceptionMessage = default(string);
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (NegativeNumberException ex)
+            {
+                negativeNumberExceptionThrown = true;
+                negativeNumberExceptionMessage = ex.Message;
+            }
+
+            // Assert
+            Assert.AreEqual(negativeNumberExceptionThrown, true);
+            StringAssert.Contains(negativeNumberExceptionMessage, "-2");
+        }
+
+        [TestMethod()]
         public void AddTest_TrebleNumberContainingNegativeString_Failure()
         {
             // Arrange 
@@ -337,9 +361,7 @@ namespace StringCalculator.Tests
 
             // Assert
             Assert.AreEqual(negativeNumberExceptionThrown, true);
-            // check excpetion message contais negative number
-
-
+            StringAssert.Contains(negativeNumberExceptionMessage, "-2");
         }
     }
 }

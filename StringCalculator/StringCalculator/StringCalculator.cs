@@ -57,10 +57,12 @@ namespace StringCalculator
                 {
                     if (counter == 0)
                     {
-                        sb.Append(negativeNumber);
+                        sb.AppendFormat(" :{0}", negativeNumber);
                     }
-
-                    sb.AppendFormat(",{0}", negativeNumber);
+                    else
+                    {
+                        sb.AppendFormat(",{0}", negativeNumber);
+                    } 
                 }
 
                 throw new NegativeNumberException(sb.ToString());
@@ -83,10 +85,9 @@ namespace StringCalculator
                     if (arrayItem.StartsWith("//"))
                     {
                         var delimiter = arrayItem
-                                        .Replace("//", "")
+                                        .Replace("//", string.Empty)
                                         .ToCharArray()
                                         .First();
-
 
                         delimiters.Add(delimiter);
                     }
