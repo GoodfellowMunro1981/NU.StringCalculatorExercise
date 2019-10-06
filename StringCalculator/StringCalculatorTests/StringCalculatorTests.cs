@@ -389,5 +389,18 @@ namespace StringCalculator.Tests
             // Assert
             Assert.AreEqual(3, result);
         }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthDelimitedString_Success()
+        {
+            // Arrange 
+            var numbers = "//[***]\n1***2***3";
+
+                // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
     }
 }

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace StringCalculator
 {
     public static class StringCalculator
     {
-        private static readonly char[] DEFAULT_DELIMITERS = new char[] { ',', '\n' };
+        private static readonly string[] DEFAULT_DELIMITERS = new string[] { ",", "\n" };
         private static readonly string INVALID_DELIMITER_MESSAGE = "String numbers contains invalid delimiter.";
         private static readonly string NEGATIVE_NUMBER_MESSAGE = "Negatives not allowed.";
 
@@ -17,7 +19,7 @@ namespace StringCalculator
             if (!string.IsNullOrEmpty(numbers))
             {
                 var model = GetDelimiterAndNumberString(numbers);
-                var numberStrings = model.Numbers.Split(model.Delimiters);
+                var numberStrings = model.Numbers.Split(model.Delimiters, StringSplitOptions.None);
                 var numberValues = GetValidNumberValuesLowerThan1000(numberStrings);
                 CheckForNegativeNumbers(numberValues);
                 total = numberValues.Sum();
@@ -73,7 +75,7 @@ namespace StringCalculator
 
         private static NumberStringModel GetDelimiterAndNumberString(string numbers)
         {
-            var delimiters = new List<char>();
+            var delimiters = new List<string>();
 
             foreach (var delimiter in DEFAULT_DELIMITERS)
             {
@@ -86,12 +88,23 @@ namespace StringCalculator
                 {
                     if (arrayItem.StartsWith("//"))
                     {
-                        var delimiter = arrayItem
-                                        .Replace("//", string.Empty)
-                                        .ToCharArray()
-                                        .First();
+                        var delimiterString = arrayItem
+                                                .Replace("//", string.Empty);
 
-                        delimiters.Add(delimiter);
+                        if (delimiterString.StartsWith("[") && delimiterString.EndsWith("]"))
+                        {
+                            Regex regex = new Regex("\\[(.*?)\\]");
+                            Match match = regex.Match(delimiterString);
+
+                            if(match.Success)
+                            {
+                                delimiters.Add(match.Groups[1].ToString());
+                            }
+                        }
+                        else
+                        {
+                            delimiters.Add(delimiterString);
+                        }
                     }
                     else
                     {
