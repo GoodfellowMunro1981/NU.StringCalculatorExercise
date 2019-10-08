@@ -50,32 +50,41 @@ namespace StringCalculator
 
         private static void CheckForNegativeNumbers(IEnumerable<int> numbers)
         {
-            if (numbers.Any(x => x < 0))
+            if (!numbers.Any(x => x < 0))
             {
-                var sb = new StringBuilder();
-                sb.Append(NEGATIVE_NUMBER_MESSAGE);
-                var counter = 0;
-
-                foreach (var negativeNumber in numbers.Where(x => x < 0).ToArray())
-                {
-                    if (counter == 0)
-                    {
-                        sb.AppendFormat(" :{0}", negativeNumber);
-                    }
-                    else
-                    {
-                        sb.AppendFormat(",{0}", negativeNumber);
-                    }
-                }
-
-                throw new NegativeNumberException(sb.ToString());
+                return;
             }
+
+            var message = GetNegativeNumberExceptionMessage(numbers);
+            throw new NegativeNumberException(message);
+        }
+
+        private static string GetNegativeNumberExceptionMessage(IEnumerable<int> numbers)
+        {
+            var sb = new StringBuilder();
+            sb.Append(NEGATIVE_NUMBER_MESSAGE);
+            var counter = 0;
+
+            foreach (var negativeNumber in numbers.Where(x => x < 0).ToArray())
+            {
+                if (counter == 0)
+                {
+                    sb.AppendFormat(" :{0}", negativeNumber);
+                }
+                else
+                {
+                    sb.AppendFormat(",{0}", negativeNumber);
+                }
+            }
+
+            return sb.ToString();
         }
 
         private static NumberStringModel GetDelimiterAndNumberString(string numbers)
         {
+            var numbersString = default(string);
             var delimiters = GetDefaultDelimiters();
-
+            
             if (numbers.StartsWith(("//")))
             {
                 foreach (var arrayItem in numbers.Split('\n'))
@@ -84,17 +93,25 @@ namespace StringCalculator
                     {
                         GetDelimitersFromString(delimiters, arrayItem);
                     }
+                    else if (string.IsNullOrEmpty(numbersString))
+                    {
+                        numbersString = arrayItem;
+                    }
                     else
                     {
-                        numbers = arrayItem;
+                        numbersString = string.Format("{0}\n{1}", numbersString, arrayItem);
                     }
                 }
+            }
+            else
+            {
+                numbersString = numbers;
             }
 
             return new NumberStringModel
             {
                 Delimiters = delimiters.ToArray(),
-                Numbers = numbers
+                Numbers = numbersString
             };
         }
 

@@ -551,5 +551,19 @@ namespace StringCalculator.Tests
             // Assert
             Assert.AreEqual(exceptionThrown, true);
         }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString4_Success()
+        {
+            // Arrange 
+            var numbers = "//[@@@][%%][*]\n1@@@2%%3*4,5\n6";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(21, result);
+        }
+
     }
 }
