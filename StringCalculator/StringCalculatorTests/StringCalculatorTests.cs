@@ -69,11 +69,11 @@ namespace StringCalculator.Tests
             var totalNumbers = random.Next(1, 100);
             var counter = 0;
 
-            while(counter < totalNumbers)
+            while (counter < totalNumbers)
             {
                 var number = random.Next(1, 100);
 
-                if(counter == 0)
+                if (counter == 0)
                 {
                     sb.Append(number);
                 }
@@ -134,11 +134,11 @@ namespace StringCalculator.Tests
             {
                 var result = StringCalculator.Add(numbers);
             }
-            catch (InvalidDelimiterException ex)
+            catch (InvalidDelimiterException)
             {
                 exceptionThrown = true;
             }
-            
+
             // Assert
             Assert.AreEqual(exceptionThrown, true);
         }
@@ -204,7 +204,7 @@ namespace StringCalculator.Tests
             {
                 var result = StringCalculator.Add(numbers);
             }
-            catch (InvalidDelimiterException ex)
+            catch (InvalidDelimiterException)
             {
                 exceptionThrown = true;
             }
@@ -238,7 +238,7 @@ namespace StringCalculator.Tests
             {
                 var result = StringCalculator.Add(numbers);
             }
-            catch (InvalidDelimiterException ex)
+            catch (InvalidDelimiterException)
             {
                 exceptionThrown = true;
             }
@@ -273,7 +273,7 @@ namespace StringCalculator.Tests
             {
                 var result = StringCalculator.Add(numbers);
             }
-            catch (InvalidDelimiterException ex)
+            catch (InvalidDelimiterException)
             {
                 exceptionThrown = true;
             }
@@ -307,7 +307,7 @@ namespace StringCalculator.Tests
             {
                 var result = StringCalculator.Add(numbers);
             }
-            catch (InvalidDelimiterException ex)
+            catch (InvalidDelimiterException)
             {
                 exceptionThrown = true;
             }
@@ -391,16 +391,165 @@ namespace StringCalculator.Tests
         }
 
         [TestMethod()]
-        public void AddTest_TrebleNumberAnyLengthDelimitedString_Success()
+        public void AddTest_TrebleNumberAnyLengthDelimitedString1_Success()
         {
             // Arrange 
             var numbers = "//[***]\n1***2***3";
 
-                // Act
+            // Act
             var result = StringCalculator.Add(numbers);
 
             // Assert
             Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthDelimitedString1_Failure()
+        {
+            // Arrange 
+            var numbers = "//[***]\n1*2**3";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthDelimitedString2_Success()
+        {
+            // Arrange 
+            var numbers = "//[@@@]\n1@@@2@@@3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthDelimitedString2_Failure()
+        {
+            // Arrange 
+            var numbers = "//[@@@]\n1@2@@3";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthDelimitedString3_Success()
+        {
+            // Arrange 
+            var numbers = "//[***]\n1,2,3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString1_Success()
+        {
+            // Arrange 
+            var numbers = "//[*][%]\n1*2%3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString2_Success()
+        {
+            // Arrange 
+            var numbers = "//[@][%]\n1@2%3";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString2_Failure()
+        {
+            // Arrange 
+            var numbers = "//[@][%]\n1*@2%3";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString3_Success()
+        {
+            // Arrange 
+            var numbers = "//[@@@][%%][*]\n1@@@2%%3*4,5";
+
+            // Act
+            var result = StringCalculator.Add(numbers);
+
+            // Assert
+            Assert.AreEqual(15, result);
+        }
+
+        [TestMethod()]
+        public void AddTest_TrebleNumberAnyLengthMultiDelimitedString3_Failure()
+        {
+            // Arrange 
+            var numbers = "//[@@@][%%][*]\n1*@2%3*4,5";
+            var exceptionThrown = false;
+
+            // Act
+            try
+            {
+                var result = StringCalculator.Add(numbers);
+            }
+            catch (InvalidDelimiterException)
+            {
+                exceptionThrown = true;
+            }
+
+            // Assert
+            Assert.AreEqual(exceptionThrown, true);
         }
     }
 }

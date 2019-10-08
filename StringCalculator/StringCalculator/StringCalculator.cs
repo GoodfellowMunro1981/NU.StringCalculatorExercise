@@ -43,7 +43,6 @@ namespace StringCalculator
                 {
                     numberValues.Add(number);
                 }
-
             }
 
             return numberValues;
@@ -75,12 +74,7 @@ namespace StringCalculator
 
         private static NumberStringModel GetDelimiterAndNumberString(string numbers)
         {
-            var delimiters = new List<string>();
-
-            foreach (var delimiter in DEFAULT_DELIMITERS)
-            {
-                delimiters.Add(delimiter);
-            }
+            var delimiters = GetDefaultDelimiters();
 
             if (numbers.StartsWith(("//")))
             {
@@ -88,23 +82,7 @@ namespace StringCalculator
                 {
                     if (arrayItem.StartsWith("//"))
                     {
-                        var delimiterString = arrayItem
-                                                .Replace("//", string.Empty);
-
-                        if (delimiterString.StartsWith("[") && delimiterString.EndsWith("]"))
-                        {
-                            Regex regex = new Regex("\\[(.*?)\\]");
-                            Match match = regex.Match(delimiterString);
-
-                            if(match.Success)
-                            {
-                                delimiters.Add(match.Groups[1].ToString());
-                            }
-                        }
-                        else
-                        {
-                            delimiters.Add(delimiterString);
-                        }
+                        GetDelimitersFromString(delimiters, arrayItem);
                     }
                     else
                     {
@@ -118,6 +96,41 @@ namespace StringCalculator
                 Delimiters = delimiters.ToArray(),
                 Numbers = numbers
             };
+        }
+
+        private static List<string> GetDefaultDelimiters()
+        {
+            var delimiters = new List<string>();
+
+            foreach (var delimiter in DEFAULT_DELIMITERS)
+            {
+                delimiters.Add(delimiter);
+            }
+
+            return delimiters;
+        }
+
+        private static void GetDelimitersFromString(List<string> delimiters, string arrayItem)
+        {
+            var delimiterString = arrayItem.Replace("//", string.Empty);
+
+            if (delimiterString.StartsWith("[") && delimiterString.EndsWith("]"))
+            {
+                var regex = new Regex("\\[(.*?)\\]");
+                var matches = regex.Matches(delimiterString);
+
+                foreach (Match match in matches)
+                {
+                    if (match.Groups.Count == 2)
+                    {
+                        delimiters.Add(match.Groups[1].ToString());
+                    }
+                }
+            }
+            else
+            {
+                delimiters.Add(delimiterString);
+            }
         }
     }
 }
